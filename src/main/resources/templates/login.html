@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet"
+          href="css/main/main.css">
+    <link rel="stylesheet"
+          href="css/login page/login_page.css">
+    <link rel="stylesheet"
+          href="css/main/form.css">
+</head>
+<body>
+<div class="login-main-container">
+    <div class="login-form-container">
+
+        <div class="inner-form-container">
+            <h1>Pet Clinic</h1>
+            <form class="my-form" action="/DoLogin">
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-input">
+                            <label for="userName">User Name</label>
+                            <input type="text" id="userName" name="userName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-input">
+                            <label for="password">Password</label>
+                            <input type="text" id="password" name="password">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-input">
+                            <label for="projectId">Project Id</label>
+                            <input type="number" id="projectId" name="projectId">
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" value="login">
+
+            </form>
+
+        </div>
+
+    </div>
+    <div class="login-img-container">
+        <img class="img-login" src="pictures/L.png">
+    </div>
+</div>
+
+</body>
+</html>

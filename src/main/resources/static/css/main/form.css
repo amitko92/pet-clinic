@@ -1,0 +1,29 @@
+
+.my-form{
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-row{
+  display:block;
+    width: 100%;
+}
+
+.form-col{
+    width: 100%;
+}
+
+.form-input{
+  padding: 0.5rem;
+}
+
+label{
+  margin-bottom:0.2rem;
+display:block;
+}
+
+input{
+    font-size: 1.5rem;
+    border-radius: 0.3rem;
+}

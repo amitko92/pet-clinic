@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>admin details</title>
+    <link rel="stylesheet" href="css/main/main.css">
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+    <div th:replace="fragments/header.html :: navigation"></div>
+    <h1>Admin Page</h1>
+    <h2 th:text="${user.userName}">Hello Person Name</h2>
+</body>
+</html>

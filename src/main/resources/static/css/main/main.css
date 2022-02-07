@@ -1,0 +1,15 @@
+/* Define vars for root element */
+
+:root {
+
+}
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2rem;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

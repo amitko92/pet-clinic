@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>t</title>
+        <link rel="stylesheet" href="css/header.css">
+    </head>
+    <body>
+
+    <header th:fragment="navigation">
+
+        <nav>
+            <div class="navbar">
+                <div class="navbar-brand-box">
+                    <a class="navbar-brand" href="\dashboard">PET CLINIC</a>
+                </div>
+                <ul class="nav-list">
+                    <li class="nav-item"
+                        onmouseover="showInnerNav('open-list')"
+                        onmouseout="hideInnerNav('open-list')"
+                    >
+                        <a class="nav-link" href="#">Open new things</a>
+                        <ul class="nav-list-inner" id="open-list">
+                            <li class="nav-item-inner"><a class="nav-link" href="#">clinic file</a></li>
+                            <li class="nav-item-inner"><a class="nav-link" href="#">client profile</a></li>
+                            <li class="nav-item-inner"><a class="nav-link" href="#">create appointment</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"
+                        onmouseover="showInnerNav('record-list')"
+                        onmouseout="hideInnerNav('record-list')"
+                    >
+                        <a class="nav-link" href="#">Records</a>
+                        <ul class="nav-list-inner" id="record-list">
+                            <li class="nav-item-inner"><a class="nav-link" href="#">2.1</a></li>
+                            <li class="nav-item-inner"><a class="nav-link" href="#">2.2</a></li>
+                            <li class="nav-item-inner"><a class="nav-link" href="#">2.3</a></li>
+                            <li class="nav-item-inner"><a class="nav-link" href="#">2.4</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                </ul>
+                <div class="right-side-nav">
+                    <div class="right-side-nav">
+                        <a href="#" class="nav-link-right">logout</a>
+                        <a class="nav-link nav-link-right" href="#" th:text="${user.userName}">amitko</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <script>
+
+        function hideInnerNav(elementId){
+
+            let e = document.getElementById(elementId);
+
+            if(e != null){
+
+                e.style.display='none';
+            }
+        }
+
+        function showInnerNav(elementId){
+
+            let e = document.getElementById(elementId);
+
+            if(e != null){
+                e.style.display='block';
+            }
+        }
+    </script>
+    </header>
+
+    </body>
+
+</html>
