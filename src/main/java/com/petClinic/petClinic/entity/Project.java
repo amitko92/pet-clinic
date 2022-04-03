@@ -2,17 +2,17 @@ package com.petClinic.petClinic.entity;
 
 public class Project {
 
-    private Long id;
+    private int id;
     private String name;
     private int serialNumber;
 
-    public Project(Long id, String name, int serialNumber) {
+    public Project(int id, String name, int serialNumber) {
         this.id = id;
         this.name = name;
         this.serialNumber = serialNumber;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -24,7 +24,7 @@ public class Project {
         this.serialNumber = serialNumber;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -34,5 +34,14 @@ public class Project {
 
     public int getSerialNumber() {
         return serialNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", serialNumber=" + serialNumber +
+                '}';
     }
 }

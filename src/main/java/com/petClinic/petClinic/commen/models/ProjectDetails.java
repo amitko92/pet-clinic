@@ -1,6 +1,6 @@
 package com.petClinic.petClinic.commen.models;
 
-import com.petClinic.petClinic.commen.Exception.PetClinicException;
+import com.petClinic.petClinic.entity.Project;
 import com.petClinic.petClinic.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ public class ProjectDetails {
 
     private static ProjectDetails instance;
     private HashMap<String, User> loginUsers;
+
 
     private ProjectDetails(){
 
@@ -46,7 +47,7 @@ public class ProjectDetails {
 
         for (Map.Entry<String, User> entry : loginUsers.entrySet()) {
 
-            if(entry.getValue().getProjectId() == projectId)
+            if(entry.getValue().getProjectSerialNum() == projectId)
                 list.add(entry.getValue());
         }
 

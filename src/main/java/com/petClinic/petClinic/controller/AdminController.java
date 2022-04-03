@@ -1,6 +1,5 @@
 package com.petClinic.petClinic.controller;
 
-import com.petClinic.petClinic.commen.Exception.PetClinicException;
 import com.petClinic.petClinic.commen.models.ProjectDetails;
 import com.petClinic.petClinic.entity.User;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ public class AdminController {
             return "endOfSession";
         }
 
-        allUsers = projectDetails.getAllUsersByProjectId(user.getProjectId());
+        allUsers = projectDetails.getAllUsersByProjectId(user.getProjectSerialNum());
         model.addAttribute("user", user);
         model.addAttribute("allUsers", allUsers);
         return "adminDetails";

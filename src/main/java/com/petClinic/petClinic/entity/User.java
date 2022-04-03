@@ -1,25 +1,35 @@
 package com.petClinic.petClinic.entity;
 
 import javax.persistence.Entity;
+import java.util.ArrayList;
 
 @Entity
 public class User {
 
-    private Long ID = -1L;
+    private int ID = -1;
     private String name = "";
     private String userName = "";
     private String password = "";
-    private int projectId = -1;
+    private int projectSerialNum = -1;
+    private ArrayList<Role> roles = new ArrayList<Role>();
 
-    public User(Long ID, String name, String userName, String password, int projectId) {
+    public User(int ID, String name, String userName, String password, int projectSerialNum) {
         this.ID = ID;
         this.name = name;
         this.userName = userName;
         this.password = password;
-        this.projectId = projectId;
+        this.projectSerialNum = projectSerialNum;
     }
 
-    public Long getID() {
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<Role> roles) {
+        this.roles = roles;
+    }
+
+    public int getID() {
         return ID;
     }
 
@@ -35,11 +45,11 @@ public class User {
         return password;
     }
 
-    public int getProjectId() {
-        return projectId;
+    public int getProjectSerialNum() {
+        return projectSerialNum;
     }
 
-    public void setID(Long ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -55,8 +65,8 @@ public class User {
         this.password = password;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setProjectSerialNum(int projectSerialNum) {
+        this.projectSerialNum = projectSerialNum;
     }
 
     @Override
@@ -66,7 +76,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", projectId=" + projectId +
+                ", projectId=" + projectSerialNum +
+                ", roles=" + roles +
                 '}';
     }
 }

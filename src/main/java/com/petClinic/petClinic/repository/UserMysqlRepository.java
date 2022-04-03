@@ -16,7 +16,7 @@ public class UserMysqlRepository implements UserRepository{
 
     RowMapper<User> rowMapper = (rs, rowNum) -> {
         User user = new User(
-                rs.getLong("id"),
+                rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("userName"),
                 rs.getString("password"),
