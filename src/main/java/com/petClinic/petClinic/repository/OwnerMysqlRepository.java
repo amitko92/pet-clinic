@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OwnerMysqlRepository implements OwnerRepository{
 
     RowMapper<Project> rowMapper = (rs, rowNum) -> {
-        Project project = new Project(
+        Project Owner = new Owner(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("serialNumber"));
@@ -28,16 +29,27 @@ public class OwnerMysqlRepository implements OwnerRepository{
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public Owner findOwnerByID(int id) {
-        return null;
+    public Optional<Owner> findOwnerByID(int id) {
+
+        String sqlQuery = "select * from university.owner where id=?";
+
+        try{
+
+            Owners = jdbcTemplate.query(sqlQuery, new Object[]{userId}, new int[]{1}, rowMapper);
+        }catch (DataAccessException e){
+
+            System.out.printf("not founds roles for user with id= %d%n", userId);
+        }
+
+        return Optional.ofNullable(roles);
     }
 
     @Override
     public boolean addOwner(Owner owner) {
 
         String sqlQuery = "insert into university.owner " +
-                "set(first_name, last_name, date_of_birth, registration_date, " +
-                "city, street, house_number, apartment, project_serial_number)" +
+                "(first_name, last_name, date_of_birth, registration_date, " +
+                "city, street, house_number, apartment, project_serial_number) " +
                 "values (?,?,?,?,?,?,?,?,?)";
 
         PreparedStatementCallback callback = new PreparedStatementCallback<Boolean>(){
@@ -63,6 +75,7 @@ public class OwnerMysqlRepository implements OwnerRepository{
         }catch (DataAccessException e){
 
             System.out.printf("failed to add owner ", owner.toString());
+            e.printStackTrace();
         }
         return false;
     }

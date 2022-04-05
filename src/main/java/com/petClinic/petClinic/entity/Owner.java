@@ -2,6 +2,7 @@ package com.petClinic.petClinic.entity;
 
 public class Owner {
 
+    private int id = -1;
     private String fName = "";
     private String lName = "";
     private String dateOfBirth = "";
@@ -16,6 +17,22 @@ public class Owner {
                  String registrationDate, String city,
                  String street, int house, int apartment,
                  int projectSerialNumber) {
+        this.fName = fName;
+        this.lName = lName;
+        this.dateOfBirth = dateOfBirth;
+        this.registrationDate = registrationDate;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.apartment = apartment;
+        this.projectSerialNumber = projectSerialNumber;
+    }
+
+    public Owner(int id, String fName, String lName, String dateOfBirth,
+                 String registrationDate, String city,
+                 String street, int house, int apartment,
+                 int projectSerialNumber) {
+        this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.dateOfBirth = dateOfBirth;
