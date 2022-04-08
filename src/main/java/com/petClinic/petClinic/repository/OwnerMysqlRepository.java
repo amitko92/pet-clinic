@@ -16,13 +16,25 @@ import java.util.Optional;
 
 @Repository
 public class OwnerMysqlRepository implements OwnerRepository{
-
-    RowMapper<Project> rowMapper = (rs, rowNum) -> {
-        Project Owner = new Owner(
+/*
+(String fName, String lName, String dateOfBirth,
+                 String registrationDate, String city,
+                 String street, int house, int apartment,
+                 int projectSerialNumber)
+ */
+    RowMapper<Owner> rowMapper = (rs, rowNum) -> {
+        Owner owner = new Owner(
                 rs.getInt("id"),
-                rs.getString("name"),
-                rs.getInt("serialNumber"));
-        return project;
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("date_of_birth"),
+                rs.getString("registration_date"),
+                rs.getString("city"),
+                rs.getString("street"),
+                rs.getInt("house_number"),
+                rs.getInt("apartment"),
+                rs.getInt("project_serial_number"));
+        return owner;
     };
 
     @Autowired
@@ -32,16 +44,21 @@ public class OwnerMysqlRepository implements OwnerRepository{
     public Optional<Owner> findOwnerByID(int id) {
 
         String sqlQuery = "select * from university.owner where id=?";
-
+        List<Owner> owners = null;
+        Owner owner = null;
         try{
 
-            Owners = jdbcTemplate.query(sqlQuery, new Object[]{userId}, new int[]{1}, rowMapper);
+            owners = jdbcTemplate.query(sqlQuery, new Object[]{id}, new int[]{1}, rowMapper);
+
+            if(owners.size() > 0)
+                owner = owners.get(0);
+
         }catch (DataAccessException e){
 
-            System.out.printf("not founds roles for user with id= %d%n", userId);
+            System.out.printf("not founds owner with id= %d%n", id);
         }
 
-        return Optional.ofNullable(roles);
+        return Optional.ofNullable(owner);
     }
 
     @Override

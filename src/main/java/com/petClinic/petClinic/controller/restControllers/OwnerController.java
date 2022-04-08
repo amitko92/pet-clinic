@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping(path="rest")
@@ -24,8 +25,34 @@ public class OwnerController {
         this.ownerService = ownerService;
     }
 
+    @PostMapping(path = "owner")
+    public Map<String,Object> getOwnerById(
+            HttpSession session,
+            @RequestParam("ownerId") int ownerId
+    ){
+        Map<String,Object> jsonObj = new HashMap<>();
+        // check is has session.
+
+        // try to retrieve user from DB.
+        Optional<Owner> opOwner = ownerService.getOwnerById(ownerId);
+
+        // putting user object in json if founds, if not return error.
+        if(opOwner.isPresent()){
+
+            jsonObj.put("user", opOwner.get());
+
+            loadMessage(jsonObj, 1, "success");
+        }else{
+
+            loadMessage(jsonObj, -1, "failed to find owner with id: " + ownerId);
+        }
+
+        //  return json.
+        return jsonObj;
+    }
+
     @PostMapping(path = "addOwner")
-    Map<String,Object> goToLogin(Model model,
+    Map<String,Object> goToLogin(
          HttpSession session,
          @RequestParam("fName") String fName,
          @RequestParam("lName") String lName,
