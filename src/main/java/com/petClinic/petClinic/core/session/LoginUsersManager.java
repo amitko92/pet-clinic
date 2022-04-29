@@ -1,21 +1,18 @@
-package com.petClinic.petClinic.commen.models;
+package com.petClinic.petClinic.core.session;
 
-import com.petClinic.petClinic.entity.Project;
 import com.petClinic.petClinic.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class ProjectDetails {
+public class LoginUsersManager {
 
-    private static ProjectDetails instance;
     private HashMap<String, User> loginUsers;
 
-    private ProjectDetails(){
+    @Autowired
+    public LoginUsersManager(){
 
         loginUsers = new HashMap<>();
     }
@@ -30,18 +27,19 @@ public class ProjectDetails {
         loginUsers.remove(sessionId);
     }
 
-    public User getUserBySessionId(String sessionId) {
+    public Optional<User> getUserBySessionId(String sessionId) {
+        User user = null;
 
-        if(!loginUsers.containsKey(sessionId)){
+        if(loginUsers.containsKey(sessionId)){
 
-            return null;
+            user = loginUsers.get(sessionId);
         }
 
-        return loginUsers.get(sessionId);
+        return Optional.ofNullable(user);
     }
-    
+
     public List<User> getAllUsersByProjectId(int projectId){
-        
+
         List<User> list = new ArrayList<>();
 
         for (Map.Entry<String, User> entry : loginUsers.entrySet()) {
@@ -53,13 +51,4 @@ public class ProjectDetails {
         return list;
     }
 
-    public static ProjectDetails getInstance(){
-
-        if(instance == null){
-
-            instance = new ProjectDetails();
-        }
-
-        return instance;
-    }
 }

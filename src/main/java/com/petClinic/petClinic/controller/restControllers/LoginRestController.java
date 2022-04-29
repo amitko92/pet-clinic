@@ -5,7 +5,6 @@ import com.petClinic.petClinic.entity.Project;
 import com.petClinic.petClinic.entity.User;
 import com.petClinic.petClinic.service.LoginService;
 import com.petClinic.petClinic.service.ProjectService;
-import com.petClinic.petClinic.service.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +29,13 @@ public class LoginRestController {
     }
 
     @PostMapping(path = "login")
-    Map<String,Object> goToLogin(Model model,
-                     HttpSession session,
-                     @RequestParam("userName") String userName,
-                     @RequestParam("password") String password,
-                     @RequestParam("projectId") int projectId)
-    {
+    Map<String,Object> goToLogin(
+         Model model,
+         HttpSession session,
+         @RequestParam("userName") String userName,
+         @RequestParam("password") String password,
+         @RequestParam("projectId") int projectId
+    ){
         System.out.println("session.getId() " + session.getId());
         Map<String,Object> jsonObj = new HashMap<>();
         jsonObj.put("status", -1);
@@ -57,8 +57,6 @@ public class LoginRestController {
             return jsonObj;
         }
 
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.process(model, session);
         User user = null;
         ProjectDetails projectDetails = ProjectDetails.getInstance();
 

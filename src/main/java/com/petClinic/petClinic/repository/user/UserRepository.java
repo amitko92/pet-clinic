@@ -1,4 +1,4 @@
-package com.petClinic.petClinic.repository;
+package com.petClinic.petClinic.repository.user;
 
 import com.petClinic.petClinic.entity.User;
 import org.springframework.stereotype.Repository;

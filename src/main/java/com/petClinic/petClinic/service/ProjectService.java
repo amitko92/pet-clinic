@@ -1,14 +1,11 @@
 package com.petClinic.petClinic.service;
 
 import com.petClinic.petClinic.entity.Project;
-import com.petClinic.petClinic.repository.RoleRepository;
-import com.petClinic.petClinic.repository.UserRepository;
 import com.petClinic.petClinic.repository.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 @Service

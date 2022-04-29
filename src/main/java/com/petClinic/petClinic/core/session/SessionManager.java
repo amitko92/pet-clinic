@@ -1,11 +1,13 @@
-package com.petClinic.petClinic.service;
+package com.petClinic.petClinic.core.session;
 
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SessionManager {
 
     public void process(Model model, HttpSession session) {

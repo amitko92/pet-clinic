@@ -1,4 +1,4 @@
-package com.petClinic.petClinic.repository;
+package com.petClinic.petClinic.repository.role;
 
 import com.petClinic.petClinic.entity.Role;
 import com.petClinic.petClinic.entity.User;

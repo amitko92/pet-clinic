@@ -1,10 +1,11 @@
 package com.petClinic.petClinic.service;
 
-import com.petClinic.petClinic.commen.models.ProjectDetails;
+import com.petClinic.petClinic.core.helpers.UserAuthentication;
+import com.petClinic.petClinic.core.session.LoginUsersManager;
 import com.petClinic.petClinic.entity.Role;
 import com.petClinic.petClinic.entity.User;
-import com.petClinic.petClinic.repository.RoleRepository;
-import com.petClinic.petClinic.repository.UserRepository;
+import com.petClinic.petClinic.repository.role.RoleRepository;
+import com.petClinic.petClinic.repository.user.UserRepository;
 import com.petClinic.petClinic.repository.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,17 +17,22 @@ import java.util.Optional;
 @Service
 public class LoginService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleService roleService;
     private final ProjectRepository projectRepository;
+    private final LoginUsersManager loginUsersManager;
 
     @Autowired
-    public LoginService(UserRepository userRepository,
-                        RoleRepository roleRepository,
-                        ProjectRepository projectRepository){
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    public LoginService(
+            UserService userService,
+            RoleService roleService,
+            ProjectRepository projectRepository,
+            LoginUsersManager loginUsersManager){
+
+        this.userService = userService;
+        this.roleService = roleService;
         this.projectRepository = projectRepository;
+        this.loginUsersManager = loginUsersManager;
     }
 
     /**
@@ -38,31 +44,32 @@ public class LoginService {
      */
     public boolean tryLogin(String userName, String password, int projectId, String sessionId){
 
-        Optional<User> optionalUser = userRepository.findUserByUserName(userName, projectId);
+        User user = null;
+        ArrayList<Role> roles = null;
+        UserAuthentication authenticateUser = new UserAuthentication();
 
-        if(optionalUser.isPresent()){
-            User user = optionalUser.get();
-            ArrayList<Role> roles = null;
+        Optional<User> optionalUser = userService.getUser(projectId, userName);
 
-            if (user.getUserName().equals(userName) &&
-                    user.getPassword().equals(password) &&
-                    user.getProjectSerialNum() == projectId){
+        if(optionalUser.isEmpty()) {
 
-                Optional<List<Role>> optionalRoles = roleRepository.findAllRolesByUserId(user.getID());
-                roles = (ArrayList<Role>) optionalRoles.get();
-                user.setRoles(roles);
-                System.out.println(user);
-                ProjectDetails projectDetails = ProjectDetails.getInstance();
-                projectDetails.addUser(sessionId, user);
-                return true;
-            }
+            return false;
         }
 
-        return false;
-    }
+        user = optionalUser.get();
 
-    public User getUserByUserName(String userName){
-        return  null;
+        if (!authenticateUser.authenticateUser(user, userName, password, projectId)){
+
+            return false;
+        }
+
+        Optional<List<Role>> optionalRoles = roleService.getAllRoles(user);
+        roles = (ArrayList<Role>) optionalRoles.get();
+        user.setRoles(roles);
+        System.out.println(user);
+
+        loginUsersManager.addUser(sessionId, user);
+
+        return true;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.petClinic.petClinic.service;
 
 import com.petClinic.petClinic.entity.Owner;
-import com.petClinic.petClinic.repository.OwnerRepository;
+import com.petClinic.petClinic.repository.owner.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

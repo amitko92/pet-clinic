@@ -1,7 +1,6 @@
-package com.petClinic.petClinic.repository;
+package com.petClinic.petClinic.repository.role;
 
 import com.petClinic.petClinic.entity.Role;
-import com.petClinic.petClinic.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -2,8 +2,8 @@ package com.petClinic.petClinic.controller.restControllers;
 
 import com.petClinic.petClinic.entity.Owner;
 import com.petClinic.petClinic.service.OwnerService;
+import com.petClinic.petClinic.core.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,10 +19,12 @@ import java.util.Optional;
 public class OwnerController {
 
     private final OwnerService ownerService;
+    private final SessionManager sessionManager;
 
     @Autowired
-    public OwnerController(OwnerService ownerService) {
+    public OwnerController(OwnerService ownerService, SessionManager sessionManager) {
         this.ownerService = ownerService;
+        this.sessionManager = sessionManager;
     }
 
     @PostMapping(path = "owner")
@@ -32,6 +34,7 @@ public class OwnerController {
 
         Map<String,Object> jsonObj = new HashMap<>();
         // check is has session.
+
 
         // try to retrieve user from DB.
         Optional<Owner> opOwner = ownerService.getOwnerById(ownerId);
@@ -62,6 +65,8 @@ public class OwnerController {
          @RequestParam("street") String street,
          @RequestParam("house") int house,
          @RequestParam("apartment") int apartment){
+
+
         Map<String,Object> jsonObj = new HashMap<>();
         int status = 1;
         String message = "";
