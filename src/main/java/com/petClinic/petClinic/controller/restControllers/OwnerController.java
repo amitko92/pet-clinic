@@ -28,8 +28,8 @@ public class OwnerController {
     @PostMapping(path = "owner")
     public Map<String,Object> getOwnerById(
             HttpSession session,
-            @RequestParam("ownerId") int ownerId
-    ){
+            @RequestParam("ownerId") int ownerId){
+
         Map<String,Object> jsonObj = new HashMap<>();
         // check is has session.
 
@@ -39,7 +39,7 @@ public class OwnerController {
         // putting user object in json if founds, if not return error.
         if(opOwner.isPresent()){
 
-            jsonObj.put("user", opOwner.get());
+            jsonObj.put("owner", opOwner.get());
 
             loadMessage(jsonObj, 1, "success");
         }else{
@@ -52,7 +52,7 @@ public class OwnerController {
     }
 
     @PostMapping(path = "addOwner")
-    Map<String,Object> goToLogin(
+    Map<String,Object> addOwner(
          HttpSession session,
          @RequestParam("fName") String fName,
          @RequestParam("lName") String lName,
@@ -61,8 +61,7 @@ public class OwnerController {
          @RequestParam("city") String city,
          @RequestParam("street") String street,
          @RequestParam("house") int house,
-         @RequestParam("apartment") int apartment,
-         @RequestParam("projectSerialNumber") int projectSerialNumber){
+         @RequestParam("apartment") int apartment){
         Map<String,Object> jsonObj = new HashMap<>();
         int status = 1;
         String message = "";
@@ -108,8 +107,9 @@ public class OwnerController {
         }
 
         Owner owner = new Owner(fName,lName,dateOfBirth,registrationDate,
-                city,street,house,apartment,projectSerialNumber);
+                city,street,house,apartment,1);
 
+        System.out.println("owner " + owner.toString());
         ownerService.addOwner(owner);
 
         return loadMessage(jsonObj, 1, "owner added successfully");

@@ -16,12 +16,10 @@ import java.util.Optional;
 
 @Repository
 public class OwnerMysqlRepository implements OwnerRepository{
-/*
-(String fName, String lName, String dateOfBirth,
-                 String registrationDate, String city,
-                 String street, int house, int apartment,
-                 int projectSerialNumber)
- */
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     RowMapper<Owner> rowMapper = (rs, rowNum) -> {
         Owner owner = new Owner(
                 rs.getInt("id"),
@@ -36,9 +34,6 @@ public class OwnerMysqlRepository implements OwnerRepository{
                 rs.getInt("project_serial_number"));
         return owner;
     };
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<Owner> findOwnerByID(int id) {
