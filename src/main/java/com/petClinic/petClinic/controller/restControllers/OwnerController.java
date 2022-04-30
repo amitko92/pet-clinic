@@ -1,6 +1,9 @@
 package com.petClinic.petClinic.controller.restControllers;
 
+import com.petClinic.petClinic.commen.models.ProjectDetails;
+import com.petClinic.petClinic.core.session.LoginUsersManager;
 import com.petClinic.petClinic.entity.Owner;
+import com.petClinic.petClinic.entity.User;
 import com.petClinic.petClinic.service.OwnerService;
 import com.petClinic.petClinic.core.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,14 +31,39 @@ public class OwnerController {
         this.sessionManager = sessionManager;
     }
 
+    @PostMapping(path = "owners")
+    public Map<String,Object> getOwners(
+            HttpSession session,
+            @RequestParam("projectId") int projectId){
+
+        Map<String,Object> response = new HashMap<>();
+        // check is has session.
+
+        Optional<List<Owner>> optionalOwners = ownerService.getOwners(projectId);
+
+        if(optionalOwners.isPresent()){
+
+            response.put("owners", optionalOwners.get());
+        }
+
+        return loadMessage(response, 1, "success");
+    }
+
     @PostMapping(path = "owner")
     public Map<String,Object> getOwnerById(
             HttpSession session,
             @RequestParam("ownerId") int ownerId){
 
-        Map<String,Object> jsonObj = new HashMap<>();
-        // check is has session.
+        Map<String,Object> response = new HashMap<>();
 
+        // check is has session.
+        Optional<ProjectDetails> optionalProjectDetails = sessionManager.getProjectDetails(session.getId());
+
+        if(optionalProjectDetails.isEmpty()){
+
+            loadMessage(response, -1, "has no session");
+            return response;
+        }
 
         // try to retrieve user from DB.
         Optional<Owner> opOwner = ownerService.getOwnerById(ownerId);
@@ -42,16 +71,16 @@ public class OwnerController {
         // putting user object in json if founds, if not return error.
         if(opOwner.isPresent()){
 
-            jsonObj.put("owner", opOwner.get());
+            response.put("owner", opOwner.get());
 
-            loadMessage(jsonObj, 1, "success");
+            loadMessage(response, 1, "success");
         }else{
 
-            loadMessage(jsonObj, -1, "failed to find owner with id: " + ownerId);
+            loadMessage(response, -1, "failed to find owner with id: " + ownerId);
         }
 
         //  return json.
-        return jsonObj;
+        return response;
     }
 
     @PostMapping(path = "addOwner")

@@ -1,6 +1,8 @@
 package com.petClinic.petClinic.controller.restControllers;
 
 import com.petClinic.petClinic.commen.models.ProjectDetails;
+import com.petClinic.petClinic.core.session.LoginUsersManager;
+import com.petClinic.petClinic.core.session.SessionManager;
 import com.petClinic.petClinic.entity.Project;
 import com.petClinic.petClinic.entity.User;
 import com.petClinic.petClinic.service.LoginService;
@@ -19,13 +21,18 @@ import java.util.Optional;
 public class LoginRestController {
 
     private final LoginService loginService;
-    private final ProjectService projectService;
+    private final SessionManager sessionManager;
+    private final LoginUsersManager loginUsersManager;
 
     @Autowired
-    public LoginRestController(LoginService loginService, ProjectService projectService){
+    public LoginRestController(
+            LoginService loginService,
+            SessionManager sessionManager,
+            LoginUsersManager loginUsersManager){
 
         this.loginService = loginService;
-        this.projectService = projectService;
+        this.sessionManager = sessionManager;
+        this.loginUsersManager = loginUsersManager;
     }
 
     @PostMapping(path = "login")
@@ -34,54 +41,34 @@ public class LoginRestController {
          HttpSession session,
          @RequestParam("userName") String userName,
          @RequestParam("password") String password,
-         @RequestParam("projectId") int projectId
-    ){
+         @RequestParam("projectId") int projectId){
+
         System.out.println("session.getId() " + session.getId());
-        Map<String,Object> jsonObj = new HashMap<>();
-        jsonObj.put("status", -1);
-        jsonObj.put("message", "-1");
-        boolean loginSuccess = false;
+        Map<String,Object> response = new HashMap<>();
+        response.put("status", -1);
+        response.put("message", "-1");
 
         if(userName.equals("") || password.equals("")){
 
-            jsonObj.put("message", "one input or more is empty");
-            return jsonObj;
+            response.put("message", "one input or more is empty");
+            return response;
         }
 
-        loginSuccess = loginService.tryLogin(userName, password, projectId, session.getId());
+        Optional<ProjectDetails> optionalProjectDetails = loginService.tryLogin(userName, password, projectId, session.getId());
 
-        if(!loginSuccess){
+        if(optionalProjectDetails.isEmpty()){
 
             session.invalidate();
-            jsonObj.put("message", "failed to login to server");
-            return jsonObj;
+            response.put("message", "failed to login");
+            return response;
         }
 
-        User user = null;
-        ProjectDetails projectDetails = ProjectDetails.getInstance();
+        System.out.println("project " + optionalProjectDetails.get());
+        response.put("message", "success");
+        response.put("status", 1);
+        response.put("ProjectDetails", optionalProjectDetails.get());
 
-        user = projectDetails.getUserBySessionId(session.getId());
-
-        if(user == null){
-
-            session.invalidate();
-            jsonObj.put("message", "success to login, but failed to retrieve the user");
-        }
-
-        Optional<Project> project = projectService.getProjectBySerialNumber(user.getProjectSerialNum());
-
-        if(project.isEmpty()){
-
-            session.invalidate();
-            jsonObj.put("message", "success to login, but failed to retrieve the project");
-        }
-
-        System.out.println("project " + project.get());
-        jsonObj.put("message", "success");
-        jsonObj.put("status", 1);
-        jsonObj.put("project", project.get());
-        jsonObj.put("user", user);
-        return jsonObj;
+        return response;
     }
 
 }

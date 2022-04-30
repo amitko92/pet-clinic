@@ -1,6 +1,7 @@
 package com.petClinic.petClinic.service;
 
 import com.petClinic.petClinic.entity.Project;
+import com.petClinic.petClinic.entity.User;
 import com.petClinic.petClinic.repository.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,15 @@ public class ProjectService {
     }
 
     /**
-     * returning Project corresponding to the given serial number.
+     * returning Project corresponding to the given user's serial number.
      * the function using lazy loading from data base,
      * checking if the project is in the in memory system, if not is go to the data base.
-     * @param serialNumber - the project's serial number.
+     * @param user - user hold the project's serial number.
      * @return Optional<Project> - Optional empty if not founds.
      */
-    public Optional<Project> getProjectBySerialNumber(int serialNumber){
-        Project  project= null;
+    public Optional<Project> getProject(User user){
+        Project project = null;
+        int serialNumber = user.getProjectSerialNum();
 
         // in the first time, in-memory is null.
         if(projects == null) {

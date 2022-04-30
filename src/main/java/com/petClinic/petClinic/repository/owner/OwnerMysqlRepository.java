@@ -90,4 +90,22 @@ public class OwnerMysqlRepository implements OwnerRepository{
         }
         return false;
     }
+
+    @Override
+    public Optional<List<Owner>> findOwners(int projectId) {
+
+        String sqlQuery = "select * from university.owner where project_serial_number=?";
+        List<Owner> owners = null;
+        Owner owner = null;
+        try{
+
+            owners = jdbcTemplate.query(sqlQuery, new Object[]{projectId}, new int[]{1}, rowMapper);
+        }catch (DataAccessException e){
+
+            e.printStackTrace();
+            System.out.printf("error to found owners with id= %d%n", projectId);
+        }
+
+        return Optional.ofNullable(owners);
+    }
 }

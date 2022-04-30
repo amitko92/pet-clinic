@@ -5,6 +5,7 @@ import com.petClinic.petClinic.repository.owner.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,9 @@ public class OwnerService {
 
     public Optional<Owner> getOwnerById(int id){
         return ownerRepository.findOwnerByID(id);
+    }
+
+    public Optional<List<Owner>> getOwners(int projectId){
+        return ownerRepository.findOwners(projectId);
     }
 }

@@ -1,65 +1,46 @@
 package com.petClinic.petClinic.commen.models;
 
-import com.petClinic.petClinic.entity.Project;
 import com.petClinic.petClinic.entity.User;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-@Service
+/** hold the project and user information.
+ * class - projectData.
+ * class - user.
+ */
 public class ProjectDetails {
 
-    private static ProjectDetails instance;
-    private HashMap<String, User> loginUsers;
+    private ProjectData projectData;
+    private User user;
 
-    private ProjectDetails(){
-
-        loginUsers = new HashMap<>();
+    /**
+     * @param projectData - the project's information.
+     * @param user - the user's information.
+     */
+    public ProjectDetails(ProjectData projectData, User user) {
+        this.projectData = projectData;
+        this.user = user;
     }
 
-    public void addUser(String sessionId, User user){
-
-        loginUsers.put(sessionId, user);
+    @Override
+    public String toString() {
+        return "ProjectDetails{" +
+                "projectData=" + projectData +
+                ", user=" + user +
+                '}';
     }
 
-    public void removeUser(String sessionId){
-
-        loginUsers.remove(sessionId);
+    public ProjectData getProjectData() {
+        return projectData;
     }
 
-    public User getUserBySessionId(String sessionId) {
-
-        if(!loginUsers.containsKey(sessionId)){
-
-            return null;
-        }
-
-        return loginUsers.get(sessionId);
-    }
-    
-    public List<User> getAllUsersByProjectId(int projectId){
-        
-        List<User> list = new ArrayList<>();
-
-        for (Map.Entry<String, User> entry : loginUsers.entrySet()) {
-
-            if(entry.getValue().getProjectSerialNum() == projectId)
-                list.add(entry.getValue());
-        }
-
-        return list;
+    public void setProjectData(ProjectData projectData) {
+        this.projectData = projectData;
     }
 
-    public static ProjectDetails getInstance(){
+    public User getUser() {
+        return user;
+    }
 
-        if(instance == null){
-
-            instance = new ProjectDetails();
-        }
-
-        return instance;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
